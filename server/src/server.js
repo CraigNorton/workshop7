@@ -5,8 +5,8 @@ var app = express();
 // Parses response bodies.
 var bodyParser = require('body-parser');
 var database = require('./database');
-//var readDocument = database.readDocument;
-//var writeDocument = database.writeDocument;
+var readDocument = database.readDocument;
+var writeDocument = database.writeDocument;
 var deleteDocument = database.deleteDocument;
 var addDocument = database.addDocument;
 var getCollection = database.getCollection;
@@ -633,8 +633,8 @@ MongoClient.connect(url, function(err, db) {
         { $pull: statement },
         function (err,feedItem) {
           if(err) return sendDatabaseError(res,err);
-          getFeedItem(feedItemId, function (err, newfeedItem) {
-            if(err || !newfeedItem) res.status(500).end();
+          getFeedItem(feedItemId, function (err, feedItem) {
+            if(err || !feedItem) res.status(500).end();
             else {
               res.send(feedItem.comments[commentIdx]);
             }
